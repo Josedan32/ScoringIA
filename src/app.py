@@ -1,11 +1,9 @@
-# main.py
 from fastapi import FastAPI, HTTPException
 import joblib
 from models.predict_data import CreditScoringInput
 from utils.handleError import handle_error
 from utils.procesData import proces_data
 
-# Definir la aplicación FastAPI
 app = FastAPI(
     title="API de Scoring Crediticio",
     description="Esta API predice el puntaje crediticio basado en múltiples factores financieros.",
@@ -21,7 +19,7 @@ except FileNotFoundError as e:
     print("Este es el error actual:" , e)
     raise handle_error(status=500,title="Error al cargar los modelos", detail=str(e))
 
-# Definir el endpoint para realizar la predicción
+# Definicion el endpoint para realizar la predicción
 @app.post("/predict", tags=["Predicción"])
 def predict(input_data: CreditScoringInput):
     try:
