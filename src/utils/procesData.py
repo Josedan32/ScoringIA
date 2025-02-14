@@ -1,33 +1,23 @@
 import pandas as pd
-from utils.handleError import handle_error
+import numpy as np
 
+def proces_data(df):
+    """
+    Prepara los datos para el modelo, aplicando feature engineering y transformaciones.
+    """
+    # Crear nuevas características
+    df["ratio_endeudamiento"] = df["pasivos"] / (df["activos"] + 1e-6)  # Evitar división por cero
+    df["ratio_gastos_ingresos"] = df["gastos"] / (df["ingresos"] + 1e-6)
+    df["ratio_ahorro"] = (df["ingresos"] - df["gastos"]) / (df["ingresos"] + 1e-6)
 
-def proces_data(data, label_encoders, scaler):
+    # Contar el número de orígenes de fondos
+    df["num_origen_fondos"] = df["origen_fondos"].str.split(", ").apply(len)
+    
+    # Convertir es_pep a binario
+    df["es_pep"] = df["es_pep"].map({"Sí": 1, "No": 0})
+    
+    # Aplicar transformaciones no lineales
+    df["log_ingresos"] = np.log(df["ingresos"] + 1)
+    df["edad_cuadrado"] = df["edad"] ** 2
 
-    df = pd.DataFrame([data])
-
-    # Convertir variables categóricas a valores numéricos usando los LabelEncoders
-    for column, le in label_encoders.items():
-        if column in df:
-            try:
-                df[column] = le.transform(df[column])
-            except ValueError as e:
-                 raise handle_error(
-                        status=400,
-                        title=f"Error transformando la columna '{column}'",
-                        detail=str(e),
-                        instance="/predict"
-                    )
-
-    # Escalar los datos numéricos
-    try:
-        df_scaled = scaler.transform(df)
-    except Exception as e:
-        handle_error(
-            status=500,
-            title="Error en el escalado de datos",
-            detail=str(e),
-            instance="/predict"
-        )
-
-    return df_scaled
+    return df
