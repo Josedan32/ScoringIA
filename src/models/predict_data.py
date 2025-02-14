@@ -9,7 +9,7 @@ class CreditScoringInput(BaseModel):
     estrato: conint(ge=1, le=6)  # Estrato socioeconómico
     nivel_academico: Literal['Bachiller', 'Universitario', 'Posgrado']  # Nivel académico
     tipo_ocupacion: str  # Tipo de ocupación (texto libre)
-    tipo_contrato: Literal['Indefinido', 'Término fijo', 'Temporal']  # Tipo de contrato
+    tipo_contrato: Literal['Indefinido', 'Término fijo', 'Temporal', "Independiente"]  # Tipo de contrato
     antiguedad_trabajo: conint(ge=0)  # Antigüedad laboral en años
     actividad_economica: str  # Actividad económica (texto libre)
     cargo: str  # Cargo (texto libre)
