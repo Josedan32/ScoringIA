@@ -39,7 +39,7 @@ def predict(input_data: CreditScoringInput):
         prediction = model.predict(df)
 
         # Devolver el resultado de la predicción
-        return {"puntaje_crediticio_predicho": int(prediction[0])}
+        return {"scoring": int(prediction[0])}
 
     except HTTPException as e:
         raise e
