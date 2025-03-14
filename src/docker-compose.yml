@@ -1,8 +1,7 @@
 services:
-  app:
-    build:
+  app-xgboost: 
+    build: 
       context: .
-    container_name: app
+    container_name: scoringV2
     ports:
       - "8000:8000"
-

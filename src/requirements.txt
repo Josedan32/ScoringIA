@@ -1,5 +1,6 @@
 pandas
 scikit-learn
-joblib 
-fastapi 
+xgboost
+joblib
+fastapi
 uvicorn
