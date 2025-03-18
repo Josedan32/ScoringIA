@@ -1,6 +1,6 @@
 #Columnas categoricas y numercias
 categorical_features = [ 
-    "estado_civil"
+    "estado_civil",
     "tipo_de_vivienda",
     "nivel_academico",
     "profesion",
