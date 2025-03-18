@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException
 import joblib
 import pandas as pd
-from models.predict_data import CreditScoringInput
+from models.predict_data import SolicitudScoring
 from utils.handleError import handle_error
+from utils.procesData import proces_data
 from decimal import Decimal
 
 app = FastAPI(
@@ -18,7 +19,7 @@ def load_model():
         print("Erro al cargar el modelo: ", e)
         raise handle_error(status=500, title="Error al cargar el modelo", detail=str(e))
 
-def prprocess_input(input_data: CreditScoringInput) -> pd.DataFrame:
+def preprocess_input(input_data: SolicitudScoring) -> pd.DataFrame:
 
     data_dict = input_data.dict()
     data_dict = {key: float(value) if isinstance(value, Decimal) else value for key, value in data_dict.items()}
@@ -28,14 +29,17 @@ def prprocess_input(input_data: CreditScoringInput) -> pd.DataFrame:
     
     return pd.DataFrame(formatted_data)
 
-
 model = load_model()
+preprocesor = joblib.load("preprocessor.pkl")
 
 @app.post("/predict", tags=["Prediccion"])
-def predict(input_data: CreditScoringInput):
+def predict(input_data: SolicitudScoring):
     try:
-        df = prprocess_input(input_data)
-        prediction = model.predict(df)
+        df = preprocess_input(input_data)
+        df = proces_data(df)
+        df_transformed = preprocesor.transform(df)
+
+        prediction = model.predict(df_transformed)
         return {"scoring": int(prediction[0])}
 
     except HTTPException as e:
