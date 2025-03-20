@@ -22,4 +22,4 @@ class SolicitudScoring(BaseModel):
     responsabilidad_fiscal_exterior: Literal['No']  # Responsabilidad fiscal en el exterior (Sí/No)
     tipo_credito: Literal['Crédito de consumo']  # Tipo de crédito
     monto_solicitado: condecimal(ge=0)  # Monto solicitado
-    destino_credito: Literal['Viajes y turismo']  # Destino del crédito
+    destino_credito: Literal['Viajes y turismo', 'viajes', 'Viajes']  # Destino del crédito
