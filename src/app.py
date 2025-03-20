@@ -35,6 +35,8 @@ preprocesor = joblib.load("preprocessor.pkl")
 @app.post("/predict", tags=["Prediccion"])
 def predict(input_data: SolicitudScoring):
     try:
+        if input_data.destino_credito == "Viajes":
+            input_data.destino_credito = "Viajes y turismo"
         df = preprocess_input(input_data)
         df = proces_data(df)
         df_transformed = preprocesor.transform(df)
