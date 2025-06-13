@@ -11,7 +11,8 @@ Args:
 Returns:
     HTTPException: Una excepción HTTP configurada con los detalles proporcionados
 """
-def handle_error(status: int, title: str, detail: str, instance: str = "/"):
+def handle_error(status: int, title: str, detail: str, instance: str = "/", error = ""):
+    print(title, " " , error , flush=True)
     return HTTPException(
         status_code= status,
         detail={
