@@ -3,7 +3,7 @@ from typing import Literal, List, Optional
 
 # Definición del modelo de datos de entrada para la predicción del scoring
 class SolicitudScoring(BaseModel):
-    edad: conint(ge=19, le=45)  # Edad entre 18 y 100
+    edad: conint(ge=19, le=100)  # Edad entre 18 y 100
     estado_civil: Literal['Soltero', 'Divorciado', 'Viudo', 'Casado', 'Unión Libre']  # Se limita a estos valores
     tipo_de_vivienda: Literal['Arrendada', 'Familiar', 'Propia']  # Se limita a estos valores
     estrato: conint(ge=1, le=6)  # Estrato socioeconómico
